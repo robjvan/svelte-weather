@@ -31,8 +31,8 @@
 
 	$: {
 		weatherData.locationName = $weatherStore.locationName;
-		(weatherData.latitude = $weatherStore.latitude),
-			(weatherData.longitude = $weatherStore.longitude);
+		weatherData.latitude = $weatherStore.latitude;
+		weatherData.longitude = $weatherStore.longitude;
 	}
 
 	$: {
@@ -56,11 +56,8 @@
 
 <h1>MiniWeather</h1>
 
-<!-- {#if weatherData.latitude != -1}<p>{weatherData.latitude}</p>{/if}
-{#if weatherData.latitude != -1}<p>{weatherData.longitude}</p>{/if} -->
-
 {#if isLoading}
-	<p>Loading weather data, please wait ...</p>	
+	<p>Loading weather data, please wait ...</p>
 {:else}
 	<p>{weatherData.locationName}</p>
 	<p>{weatherData.latitude}</p>
