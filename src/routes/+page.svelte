@@ -3,6 +3,8 @@
 	import { weatherStore } from '../stores/weather-store';
 	import Geolocation from 'svelte-geolocation';
 
+	let isLoading: boolean = false;
+
 	let weatherData: WeatherData = {
 		condition: '',
 		conditionCode: 0,
@@ -32,6 +34,10 @@
 		(weatherData.latitude = $weatherStore.latitude),
 			(weatherData.longitude = $weatherStore.longitude);
 	}
+
+	$: {
+		isLoading = $weatherStore.isLoading;
+	}
 </script>
 
 <Geolocation
@@ -50,9 +56,16 @@
 
 <h1>MiniWeather</h1>
 
-<p>{weatherData.locationName}</p>
-<p>{weatherData.latitude}</p>
-<p>{weatherData.longitude}</p>
+<!-- {#if weatherData.latitude != -1}<p>{weatherData.latitude}</p>{/if}
+{#if weatherData.latitude != -1}<p>{weatherData.longitude}</p>{/if} -->
+
+{#if isLoading}
+	<p>Loading weather data, please wait ...</p>	
+{:else}
+	<p>{weatherData.locationName}</p>
+	<p>{weatherData.latitude}</p>
+	<p>{weatherData.longitude}</p>
+{/if}
 
 <style>
 </style>
