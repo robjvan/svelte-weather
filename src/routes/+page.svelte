@@ -1,2 +1,58 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang=ts>
+	import type { WeatherData } from 'src/interfaces/weather-data.interface';
+	import { weatherStore } from '../stores/weather-store';
+	import Geolocation from 'svelte-geolocation';
+
+	let weatherData: WeatherData = {
+		condition: '',
+		conditionCode: 0,
+		conditionIconUrl: '',
+		feelsLikeC: 0,
+		feelsLikeF: 0,
+		tempC: 0,
+		tempF: 0,
+		humidity: 0,
+		is_day: false,
+		localtime: '',
+		locationCountry: '',
+		locationName: '',
+		pressureIn: 0,
+		pressureMb: 0,
+		uv: 0,
+		windDegrees: 0,
+		windDir: '',
+		windKph: 0,
+		windMph: 0,
+		latitude: 0,
+		longitude: 0
+	};
+
+	$: {
+		weatherData.locationName = $weatherStore.locationName;
+		(weatherData.latitude = $weatherStore.latitude),
+			(weatherData.longitude = $weatherStore.longitude);
+	}
+</script>
+
+<Geolocation
+	getPosition
+	on:position={(e) => {
+		weatherStore.fetchWeatherDetails({
+			longitude: e.detail.coords.longitude,
+			latitude: e.detail.coords.latitude
+		});
+	}}
+/>
+
+<svelte:head>
+	<title>MiniWeather</title>
+</svelte:head>
+
+<h1>MiniWeather</h1>
+
+<p>{weatherData.locationName}</p>
+<p>{weatherData.latitude}</p>
+<p>{weatherData.longitude}</p>
+
+<style>
+</style>
