@@ -1,5 +1,7 @@
 # MiniWeather
 
+Weather web app, built with SvelteKit and TailwindCSS
+
 ## Developing
 
 ### API Key
